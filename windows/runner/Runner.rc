@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.zanie" "\0"
-            VALUE "FileDescription", "fireandice" "\0"
+            VALUE "CompanyName", "com,zanie" "\0"
+            VALUE "FileDescription", "icesicle" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "fireandice" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.zanie. All rights reserved." "\0"
-            VALUE "OriginalFilename", "fireandice.exe" "\0"
-            VALUE "ProductName", "fireandice" "\0"
+            VALUE "InternalName", "icesicle" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com,zanie. All rights reserved." "\0"
+            VALUE "OriginalFilename", "icesicle.exe" "\0"
+            VALUE "ProductName", "icesicle" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

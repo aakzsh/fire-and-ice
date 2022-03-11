@@ -1,4 +1,4 @@
-package com.zanie.fireandice
+package comzanie.icesicle
 
 import io.flutter.embedding.android.FlutterActivity
 

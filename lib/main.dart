@@ -1,23 +1,22 @@
-import 'package:fireandice/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:icesicle/screens/game.dart';
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
   @override
-  _AppState createState() => _AppState();
+  State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: "Fire and Ice",
-      home: WelcomeScreen(),
+      home: Game(),
     );
   }
 }
