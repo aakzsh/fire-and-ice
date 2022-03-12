@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:icesicle/screens/blobanimation.dart';
+import 'package:icesicle/screens/check.dart';
 import 'package:icesicle/screens/game.dart';
+import 'package:icesicle/screens/home.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const App());
 }
 
@@ -15,7 +20,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Game(),
     );
   }

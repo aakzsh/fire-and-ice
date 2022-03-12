@@ -1,72 +1,34 @@
-import 'dart:html';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:icesicle/screens/gameover.dart';
+import 'package:icesicle/screens/result.dart';
+import 'package:icesicle/constants/constants.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:hoverx/hoverx.dart';
+// import 'package:audioplayers/audio_cache.dart';
 
 class Game extends StatefulWidget {
-  const Game({Key? key}) : super(key: key);
+  const Game({Key? key})
+      : super(
+          key: key,
+        );
 
   @override
   State<Game> createState() => _GameState();
 }
 
-List<int> pos = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23,
-  24
-];
-
-List<int> posCheck = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23,
-  24
-];
-
 class _GameState extends State<Game> {
+  final AudioCache _audioCache = AudioCache(
+    prefix: 'audio/',
+    fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
+  );
+  String swapText = "";
+  bool swapInProg = false;
+
+  int swapleft = 2;
+  List<int> swapped = [];
+  Color bgcolor = Color.fromRGBO(r.toInt(), g.toInt(), b.toInt(), 1);
   checkpos(index) {
     int _24index = pos.indexOf(24);
     if ((index - _24index).abs() == 1) {
@@ -95,23 +57,91 @@ class _GameState extends State<Game> {
   Widget retWidget(index) {
     if (pos[index] == 24) {
       return Container(
-        color: Colors.blue.withOpacity(0.3),
+        color: Colors.blue.withOpacity(0.02),
         child: Center(child: Text(pos[index].toString())),
       );
     }
 
     return InkWell(
-      onTap: () {
-        checkpos(index);
-      },
-      child: Container(
-        color: Colors.blue,
-        child: Center(child: Text(pos[index].toString())),
-      ),
-    );
+        onTap: () {
+          if (swapInProg) {
+            print("hehe");
+            print(swapped);
+            if (swapped.length < 2) {
+              swapped.add(index);
+              print(swapped);
+            }
+            if (swapped.length == 2) {
+              setState(() {
+                int one = pos[swapped[0]];
+                int two = pos[swapped[1]];
+                pos[swapped[0]] = two;
+                pos[swapped[1]] = one;
+                swapInProg = false;
+                swapped = [];
+              });
+            }
+          } else {
+            if ([4, 9, 14, 19, 24].contains(index) &&
+                pos.indexOf(24) == index + 1) {
+              print("invalid move");
+            } else if ([0, 5, 10, 15, 20].contains(index) &&
+                pos.indexOf(24) == index - 1) {
+              print("invalid move");
+            } else {
+              checkpos(index);
+            }
+          }
+        },
+        // child: HoverX(
+        //   title: "x",
+        //   hoverColor: Colors.blueAccent,
+        //   image: NetworkImage(
+        //       "https://cdn.discordapp.com/emojis/862226603715067946.webp"),
+        // )
+        child: Opacity(
+          opacity: 1.0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.white.withOpacity(0.7),
+                      offset: Offset(2, 2),
+                      blurRadius: 6,
+                      spreadRadius: -5)
+                ]),
+            child: Center(child: Text(pos[index].toString())),
+          ),
+        ));
+  }
+
+  timerStart() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        r += ((fr - sr) / timeinitial);
+        g += ((fg - sg) / timeinitial);
+        b += ((fb - sb) / timeinitial);
+        bgcolor = Color.fromRGBO(r.toInt(), g.toInt(), b.toInt(), 1);
+
+        timeleft--;
+      });
+
+      if (timeleft == 0) {
+        timer.cancel();
+        // this.timerStart()
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => GameOver()),
+            (route) => false);
+      }
+    });
   }
 
   keyPressed(val) {
+    // SystemSound.play(SystemSoundType.click);
+    _audioCache.play('collided.mp3');
     if (val == "4294968068") {
       if (pos.indexOf(24) <= 24) {
         checkpos(pos.indexOf(24) + 5);
@@ -136,6 +166,7 @@ class _GameState extends State<Game> {
   @override
   void initState() {
     pos.shuffle();
+    timerStart();
     super.initState();
   }
 
@@ -151,6 +182,12 @@ class _GameState extends State<Game> {
         print(event.logicalKey.keyId);
         if (event is RawKeyDownEvent) {
           keyPressed(event.logicalKey.keyId.toString());
+
+          if (pos.toString() == posCheck.toString()) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Result()));
+            print("won!!!");
+          }
         }
 
         setState(() {
@@ -167,9 +204,6 @@ class _GameState extends State<Game> {
               leading: IconButton(
                 onPressed: () {
                   setState(() {
-                    // int x = pos[0];
-                    // pos[0] = pos[4];
-                    // pos[4] = x;
                     pos.shuffle();
                   });
                 },
@@ -178,22 +212,69 @@ class _GameState extends State<Game> {
               title: Text(x),
             ),
             body: Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: Colors.deepPurple,
-              child: Center(
-                  child: Container(
-                height: h - 100,
-                width: h - 100,
-                color: Colors.pinkAccent,
-                child: GridView.count(
-                    crossAxisCount: 5,
-                    children: List.generate(25, (index) {
-                      return Padding(
-                          padding: EdgeInsets.all(2), child: retWidget(index));
-                    })),
-              )),
-            ),
+                height: double.infinity,
+                width: double.infinity,
+                color: bgcolor,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 100,
+                      width: 200,
+                      child: Text(
+                        "$timeleft",
+                        style: TextStyle(fontSize: 40, color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      // color: Colors.blueAccent,
+                      height: h - 100,
+                      width: h - 100,
+                      // color: Colors.pinkAccent,
+                      child: GridView.count(
+                          crossAxisCount: 5,
+                          children: List.generate(25, (index) {
+                            return Padding(
+                                padding: EdgeInsets.all(4),
+                                child: retWidget(index));
+                          })),
+                    ),
+                    Container(
+                        height: 120,
+                        width: 200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            MaterialButton(
+                              onPressed: () {
+                                if (swapleft > 0) {
+                                  setState(() {
+                                    swapInProg = true;
+                                    swapText =
+                                        "now choose two tiles you wanna swap";
+                                    swapleft--;
+                                  });
+                                } else {
+                                  setState(() {
+                                    swapText = "youve used all your swaps";
+                                  });
+                                }
+
+                                // useSwap();
+                              },
+                              child: Text("use swap",
+                                  style: TextStyle(
+                                      fontSize: 40, color: Colors.white)),
+                            ),
+                            Text("$swapleft swaps left",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white)),
+                            Text("$swapText"),
+                          ],
+                        ))
+                  ],
+                )),
           );
         },
       ),
