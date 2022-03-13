@@ -5,7 +5,7 @@ import 'package:icesicle/screens/gameover.dart';
 import 'package:icesicle/screens/result.dart';
 import 'package:icesicle/constants/constants.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:hoverx/hoverx.dart';
+import 'package:show_up_animation/show_up_animation.dart';
 // import 'package:audioplayers/audio_cache.dart';
 
 class Game extends StatefulWidget {
@@ -25,6 +25,7 @@ class _GameState extends State<Game> {
   );
   String swapText = "";
   bool swapInProg = false;
+  int onTapped = 0;
 
   int swapleft = 2;
   List<int> swapped = [];
@@ -58,12 +59,36 @@ class _GameState extends State<Game> {
     if (pos[index] == 24) {
       return Container(
         color: Colors.blue.withOpacity(0.02),
-        child: Center(child: Text(pos[index].toString())),
       );
-    }
+    } else if (index == onTapped) {
+      Direction dir = Direction.vertical;
+      double offset = -2;
+      int _24_index = pos.indexOf(24);
 
-    return InkWell(
+      // left to right
+      if (index - _24_index == 1) {
+        dir = Direction.horizontal;
+        offset = -2.5;
+      }
+      // r to l
+      else if (index - _24_index == -1) {
+        dir = Direction.horizontal;
+        offset = 2.5;
+      }
+      // b to t
+      else if (index - _24_index == -5) {
+        dir = Direction.vertical;
+        offset = 2.5;
+      } else {
+        dir = Direction.vertical;
+        offset = -2.5;
+      }
+
+      return InkWell(
         onTap: () {
+          setState(() {
+            onTapped = pos.indexOf(24);
+          });
           if (swapInProg) {
             print("hehe");
             print(swapped);
@@ -93,28 +118,93 @@ class _GameState extends State<Game> {
             }
           }
         },
-        // child: HoverX(
-        //   title: "x",
-        //   hoverColor: Colors.blueAccent,
-        //   image: NetworkImage(
-        //       "https://cdn.discordapp.com/emojis/862226603715067946.webp"),
-        // )
-        child: Opacity(
-          opacity: 1.0,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.white.withOpacity(0.7),
-                      offset: Offset(2, 2),
-                      blurRadius: 6,
-                      spreadRadius: -5)
-                ]),
-            child: Center(child: Text(pos[index].toString())),
+        child: ShowUpAnimation(
+          direction: dir,
+          offset: offset,
+          curve: Curves.easeOut,
+          animationDuration: Duration(milliseconds: 250),
+          child: Opacity(
+            opacity: 1.0,
+            child: Container(
+              child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Center(
+                      child: Stack(children: <Widget>[
+                    Image.asset('assets/ice.png'),
+                    Center(
+                        child: Text(
+                      (pos[index] + 1).toString(),
+                      style: TextStyle(
+                          color: Color(0xff1C767B),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 24.0),
+                    ))
+                  ]))),
+            ),
           ),
-        ));
+        ),
+      );
+    }
+    return InkWell(
+      onTap: () {
+        setState(() {
+          onTapped = pos.indexOf(24);
+        });
+        if (swapInProg) {
+          print("hehe");
+          print(swapped);
+          if (swapped.length < 2) {
+            swapped.add(index);
+            print(swapped);
+          }
+          if (swapped.length == 2) {
+            setState(() {
+              int one = pos[swapped[0]];
+              int two = pos[swapped[1]];
+              pos[swapped[0]] = two;
+              pos[swapped[1]] = one;
+              swapInProg = false;
+              swapped = [];
+            });
+          }
+        } else {
+          if ([4, 9, 14, 19, 24].contains(index) &&
+              pos.indexOf(24) == index + 1) {
+            print("invalid move");
+          } else if ([0, 5, 10, 15, 20].contains(index) &&
+              pos.indexOf(24) == index - 1) {
+            print("invalid move");
+          } else {
+            checkpos(index);
+          }
+        }
+      },
+      // child: HoverX(
+      //   title: "x",
+      //   hoverColor: Colors.blueAccent,
+      //   image: NetworkImage(
+      //       "https://cdn.discordapp.com/emojis/862226603715067946.webp"),
+      // )
+      child: Opacity(
+        opacity: 1.0,
+        child: Container(
+          child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Center(
+                  child: Stack(children: <Widget>[
+                Image.asset('assets/ice.png'),
+                Center(
+                    child: Text(
+                  (pos[index] + 1).toString(),
+                  style: TextStyle(
+                      color: Color(0xff1C767B),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24.0),
+                ))
+              ]))),
+        ),
+      ),
+    );
   }
 
   timerStart() {
