@@ -41,6 +41,8 @@ dependencies:
   rive: ^0.8.1
   audioplayers:
   hoverx:
+  show_up_animation: ^2.0.0
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   flutter_test:
