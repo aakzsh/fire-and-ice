@@ -311,6 +311,7 @@ class _GameState extends State<Game> {
               Container(
                   height: double.infinity,
                   width: double.infinity,
+                  color: bgcolor.withOpacity(0.4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
