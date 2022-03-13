@@ -5,6 +5,7 @@ import 'package:icesicle/screens/gameover.dart';
 import 'package:icesicle/screens/result.dart';
 import 'package:icesicle/constants/constants.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:show_up_animation/show_up_animation.dart';
 // import 'package:audioplayers/audio_cache.dart';
 
@@ -266,6 +267,7 @@ class _GameState extends State<Game> {
   Widget build(BuildContext context) {
     // pos.shuffle();
     double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
     return RawKeyboardListener(
       focusNode: _focusNode,
       onKey: ((RawKeyEvent event) {
@@ -290,81 +292,91 @@ class _GameState extends State<Game> {
             FocusScope.of(context).requestFocus(_focusNode);
           }
           return Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  setState(() {
-                    pos.shuffle();
-                  });
-                },
-                icon: Icon(Icons.abc),
-              ),
-              title: Text(x),
-            ),
-            body: Container(
+            body: Stack(children: [
+              Container(
                 height: double.infinity,
                 width: double.infinity,
-                color: bgcolor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 100,
-                      width: 200,
-                      child: Text(
-                        "$timeleft",
-                        style: TextStyle(fontSize: 40, color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.blueAccent,
-                      height: h - 100,
-                      width: h - 100,
-                      // color: Colors.pinkAccent,
-                      child: GridView.count(
-                          crossAxisCount: 5,
-                          children: List.generate(25, (index) {
-                            return Padding(
-                                padding: EdgeInsets.all(4),
-                                child: retWidget(index));
-                          })),
-                    ),
-                    Container(
-                        height: 120,
+                child: SvgPicture.asset(
+                  'assets/water.svg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Image.asset(
+                  'assets/island.png',
+                  width: w / 3,
+                ),
+              ),
+              Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: 100,
                         width: 200,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            MaterialButton(
-                              onPressed: () {
-                                if (swapleft > 0) {
-                                  setState(() {
-                                    swapInProg = true;
-                                    swapText =
-                                        "now choose two tiles you wanna swap";
-                                    swapleft--;
-                                  });
-                                } else {
-                                  setState(() {
-                                    swapText = "youve used all your swaps";
-                                  });
-                                }
+                        child: Text(
+                          "$timeleft",
+                          style: TextStyle(fontSize: 40, color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        height: h - 100,
+                        width: h - 100,
+                        decoration: BoxDecoration(
+                            color: Color(0xff2ED2DB),
+                            borderRadius: BorderRadius.circular(25.0)),
+                        // color: Colors.pinkAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: GridView.count(
+                              crossAxisCount: 5,
+                              children: List.generate(25, (index) {
+                                return Padding(
+                                    padding: EdgeInsets.all(4),
+                                    child: retWidget(index));
+                              })),
+                        ),
+                      ),
+                      Container(
+                          height: 120,
+                          width: 200,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              MaterialButton(
+                                onPressed: () {
+                                  if (swapleft > 0) {
+                                    setState(() {
+                                      swapInProg = true;
+                                      swapText =
+                                          "now choose two tiles you wanna swap";
+                                      swapleft--;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      swapText = "youve used all your swaps";
+                                    });
+                                  }
 
-                                // useSwap();
-                              },
-                              child: Text("use swap",
+                                  // useSwap();
+                                },
+                                child: Text("use swap",
+                                    style: TextStyle(
+                                        fontSize: 40, color: Colors.white)),
+                              ),
+                              Text("$swapleft swaps left",
                                   style: TextStyle(
-                                      fontSize: 40, color: Colors.white)),
-                            ),
-                            Text("$swapleft swaps left",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white)),
-                            Text("$swapText"),
-                          ],
-                        ))
-                  ],
-                )),
+                                      fontSize: 20, color: Colors.white)),
+                              Text("$swapText"),
+                            ],
+                          ))
+                    ],
+                  )),
+            ]),
           );
         },
       ),
