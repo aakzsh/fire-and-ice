@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icesicle/screens/game.dart';
@@ -7,6 +8,8 @@ class Rules extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -36,8 +39,7 @@ class Rules extends StatelessWidget {
                       image: AssetImage("assets/wood.png"), fit: BoxFit.cover)),
             ),
             Container(
-              height: 300,
-              width: 900,
+              width: w - 90,
               child: Padding(
                   padding: EdgeInsets.all(15),
                   child: Center(
@@ -46,7 +48,8 @@ class Rules extends StatelessWidget {
                       style: rulestyle(25),
                     ),
                   )),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
+                  color: Colors.red,
                   image: DecorationImage(
                       image: AssetImage("assets/wood.png"), fit: BoxFit.cover)),
             ),
