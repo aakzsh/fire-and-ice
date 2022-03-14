@@ -1,16 +1,24 @@
-# icesicle
+# IceSicle
+IceSicle is a sliding puzzle game, with 5 blocks in each row and column. A user would be asked to select level [easy, medium, hard] and then the game shall start. The blocks are respresented as ice cubes floating on ocean, and the initial time is set to sunrise. All you need to do it fix the puzzle before the ice melts. You can see the remaining time on the side of screen. You also have 2 special power swaps, that you can use to swap positions of any two blocks across the arrangement. If you complete the puzzle within the time, youll be declared as a winner and your final score would be calculated based on the time you took to complete it. Otherwise, if you fail to complete the puzzle within the time frame, the game would be over.
 
-A new Flutter project.
+# Tech Stack
+The game is completely made using flutter and is available for 5 platforms, namely:-
+- Web
+- Android
+- Windows
+- iOS
+- macOS
 
-## Getting Started
+# Running Locally
+- clone the repository ```https://github.com/aakzsh/icesicle```
+- make sure you've flutter environment enabled
+- ```dart pub get```
+- select debug device
+- ```flutter run```
 
-This project is a starting point for a Flutter application.
+# Screenshots
+![image](https://user-images.githubusercontent.com/69726390/158244912-6d9ace07-fcc9-4d02-9a42-574cfd888c39.png) <br>
+![image](https://user-images.githubusercontent.com/69726390/158244957-64d859c6-6678-4ee8-805a-8d8fdfd0b5b2.png)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Demo Video
