@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final FocusNode _focusNodee = FocusNode();
   List<String> difficulty = ['Easy', 'Medium', 'Hard'];
 
-  Map<String, int> difficultyTime = {'Easy': 600, 'Medium': 300, 'Hard': 20};
+  Map<String, int> difficultyTime = {'Easy': 600, 'Medium': 300, 'Hard': 120};
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
