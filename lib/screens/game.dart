@@ -344,223 +344,456 @@ class _GameState extends State<Game> {
     // pos.shuffle();
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    return RawKeyboardListener(
-      focusNode: _focusNode,
-      onKey: ((RawKeyEvent event) {
-        print(event.logicalKey.keyId);
-        if (event is RawKeyDownEvent) {
-          keyPressed(event.logicalKey.keyId.toString());
+    return w > h
+        ? RawKeyboardListener(
+            focusNode: _focusNode,
+            onKey: ((RawKeyEvent event) {
+              print(event.logicalKey.keyId);
+              if (event is RawKeyDownEvent) {
+                keyPressed(event.logicalKey.keyId.toString());
 
-          if (pos.toString() == posCheck.toString()) {
-            setState(() {
-              message = "Well Done!";
-              time = timeinitial - timeleft;
-              bottommsg = "You've completed the level in $time seconds";
-              r = 10;
-              g = 41;
-              b = 61;
-            });
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Result()));
-            print("won!!!");
-          }
-        }
+                if (pos.toString() == posCheck.toString()) {
+                  setState(() {
+                    message = "Well Done!";
+                    time = timeinitial - timeleft;
+                    bottommsg = "You've completed the level in $time seconds";
+                    r = 10;
+                    g = 41;
+                    b = 61;
+                  });
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Result()));
+                  print("won!!!");
+                }
+              }
 
-        setState(() {
-          x = "lmao";
-        });
-      }),
-      child: Builder(
-        builder: (context) {
-          if (!_focusNode.hasFocus) {
-            FocusScope.of(context).requestFocus(_focusNode);
-          }
-          return Scaffold(
-            body: Stack(children: [
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                child: SvgPicture.asset(
-                  'assets/water.svg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Image.asset(
-                  'assets/island.png',
-                  width: w / 3,
-                ),
-              ),
-              Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  color: bgcolor.withOpacity(0.6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Stack(
-                        alignment: Alignment.topCenter,
-                        children: <Widget>[
-                          Stack(
-                            children: <Widget>[
-                              Tooltip(
-                                child: Container(
-                                  height: 300,
-                                  width: 300,
-                                  child: RiveAnimation.asset(
-                                    "assets/$timeinitial.riv",
-                                  ),
+              setState(() {
+                x = "lmao";
+              });
+            }),
+            child: Builder(
+              builder: (context) {
+                if (!_focusNode.hasFocus) {
+                  FocusScope.of(context).requestFocus(_focusNode);
+                }
+                return Scaffold(
+                  body: Stack(children: [
+                    Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: SvgPicture.asset(
+                        'assets/water.svg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Image.asset(
+                        'assets/island.png',
+                        width: w / 3,
+                      ),
+                    ),
+                    Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        color: bgcolor.withOpacity(0.6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Stack(
+                              alignment: Alignment.topCenter,
+                              children: <Widget>[
+                                Stack(
+                                  children: <Widget>[
+                                    Tooltip(
+                                      child: Container(
+                                        height: 300,
+                                        width: 300,
+                                        child: RiveAnimation.asset(
+                                          "assets/$timeinitial.riv",
+                                        ),
+                                      ),
+                                      message:
+                                          "solve the puzzle before its sunny enough for the ice to melt down",
+                                      padding: EdgeInsets.all(10),
+                                      margin: EdgeInsets.all(0),
+                                      showDuration: Duration(milliseconds: 100),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 224, 218, 218),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(4)),
+                                      ),
+                                      textStyle:
+                                          TextStyle(color: Color(0xff1C767B)),
+                                      preferBelow: true,
+                                      verticalOffset: -80,
+                                    ),
+                                  ],
                                 ),
-                                message:
-                                    "solve the puzzle before its sunny enough for the ice to melt down",
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.all(0),
-                                showDuration: Duration(milliseconds: 100),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 200,
+                                    ),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(238, 200, 93, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        height: 100,
+                                        width: 150,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "$timeleft",
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  color: Colors.black),
+                                            ),
+                                            Text("sec left",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black))
+                                          ],
+                                        )),
+                                    SizedBox(
+                                      height: 70,
+                                    ),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(238, 200, 93, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        height: 100,
+                                        width: 150,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "$swapleft",
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  color: Colors.black),
+                                            ),
+                                            Text("swaps left",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black))
+                                          ],
+                                        ))
+                                  ],
+                                )
+                              ],
+                            ),
+                            Hero(
+                              tag: 'transition',
+                              child: Container(
+                                height: h - 100,
+                                width: h - 100,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 224, 218, 218),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(4)),
-                                ),
-                                textStyle: TextStyle(color: Color(0xff1C767B)),
-                                preferBelow: true,
-                                verticalOffset: -80,
+                                    color: Color(0xff2ED2DB),
+                                    borderRadius: BorderRadius.circular(25.0)),
+                                // color: Colors.pinkAccent,
+                                child: isLoaded
+                                    ? Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: GridView.count(
+                                            crossAxisCount: 5,
+                                            children:
+                                                List.generate(25, (index) {
+                                              return Padding(
+                                                  padding: EdgeInsets.all(4),
+                                                  child: retWidget(index));
+                                            })))
+                                    : cubes(),
                               ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                height: 200,
-                              ),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(238, 200, 93, 1),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  height: 100,
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "$timeleft",
-                                        style: TextStyle(
-                                            fontSize: 30, color: Colors.black),
-                                      ),
-                                      Text("sec left",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black))
-                                    ],
-                                  )),
-                              SizedBox(
-                                height: 70,
-                              ),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(238, 200, 93, 1),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  height: 100,
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "$swapleft",
-                                        style: TextStyle(
-                                            fontSize: 30, color: Colors.black),
-                                      ),
-                                      Text("swaps left",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black))
-                                    ],
-                                  ))
-                            ],
-                          )
-                        ],
-                      ),
-                      Hero(
-                        tag: 'transition',
-                        child: Container(
-                          height: h - 100,
-                          width: h - 100,
-                          decoration: BoxDecoration(
-                              color: Color(0xff2ED2DB),
-                              borderRadius: BorderRadius.circular(25.0)),
-                          // color: Colors.pinkAccent,
-                          child: isLoaded
-                              ? Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: GridView.count(
-                                      crossAxisCount: 5,
-                                      children: List.generate(25, (index) {
-                                        return Padding(
-                                            padding: EdgeInsets.all(4),
-                                            child: retWidget(index));
-                                      })))
-                              : cubes(),
-                        ),
-                      ),
-                      Container(
-                          decoration: BoxDecoration(
-                              // color: Color.fromRGBO(238, 200, 93, 1),
-                              color: Color(0xff2ED2DB).withOpacity(1),
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 120,
-                          width: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              MaterialButton(
-                                onPressed: () {
-                                  if (swapleft > 0) {
-                                    setState(() {
-                                      swapInProg = true;
-                                      swapText =
-                                          "now choose two tiles you wanna swap";
-                                      swapleft--;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      swapText = "youve used all your swaps";
-                                    });
-                                  }
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                    // color: Color.fromRGBO(238, 200, 93, 1),
+                                    color: Color(0xff2ED2DB).withOpacity(1),
+                                    borderRadius: BorderRadius.circular(10)),
+                                height: 120,
+                                width: 200,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (swapleft > 0) {
+                                          setState(() {
+                                            swapInProg = true;
+                                            swapText =
+                                                "now choose two tiles you wanna swap";
+                                            swapleft--;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            swapText =
+                                                "youve used all your swaps";
+                                          });
+                                        }
 
-                                  // useSwap();
-                                },
-                                child: Text("use swap",
-                                    style: TextStyle(
-                                        fontSize: 32,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500)),
+                                        // useSwap();
+                                      },
+                                      child: Text("use swap",
+                                          style: TextStyle(
+                                              fontSize: 32,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Center(
+                                      child: Text("$swapText",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black
+                                                  .withOpacity(0.7))),
+                                    )
+                                    // Text("$swapText"),
+                                  ],
+                                ))
+                          ],
+                        )),
+                  ]),
+                );
+              },
+            ),
+          )
+        :
+
+        ////////////////////////////////
+        ///hehe///////////
+        ///////////////////////////////
+        ///
+        ///
+
+        RawKeyboardListener(
+            focusNode: _focusNode,
+            onKey: ((RawKeyEvent event) {
+              print(event.logicalKey.keyId);
+              if (event is RawKeyDownEvent) {
+                keyPressed(event.logicalKey.keyId.toString());
+
+                if (pos.toString() == posCheck.toString()) {
+                  setState(() {
+                    message = "Well Done!";
+                    time = timeinitial - timeleft;
+                    bottommsg = "You've completed the level in $time seconds";
+                    r = 10;
+                    g = 41;
+                    b = 61;
+                  });
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Result()));
+                  print("won!!!");
+                }
+              }
+
+              setState(() {
+                x = "lmao";
+              });
+            }),
+            child: Builder(
+              builder: (context) {
+                if (!_focusNode.hasFocus) {
+                  FocusScope.of(context).requestFocus(_focusNode);
+                }
+                return Scaffold(
+                  body: Stack(children: [
+                    Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: SvgPicture.asset(
+                        'assets/water.svg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Image.asset(
+                        'assets/island.png',
+                        width: 2 * w / 3,
+                      ),
+                    ),
+                    Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        color: bgcolor.withOpacity(0.6),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Tooltip(
+                              child: Container(
+                                height: 80,
+                                child: RiveAnimation.asset(
+                                  "assets/${timeinitial}x.riv",
+                                ),
                               ),
-                              SizedBox(
-                                height: 10,
+                              message:
+                                  "solve the puzzle before its sunny enough for the ice to melt down",
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.all(0),
+                              showDuration: Duration(milliseconds: 100),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 224, 218, 218),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
                               ),
-                              Center(
-                                child: Text("$swapText",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black.withOpacity(0.7))),
-                              )
-                              // Text("$swapText"),
-                            ],
-                          ))
-                    ],
-                  )),
-            ]),
+                              textStyle: TextStyle(color: Color(0xff1C767B)),
+                              preferBelow: true,
+                              verticalOffset: -80,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(238, 200, 93, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    height: 80,
+                                    width: 120,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "$timeleft",
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              color: Colors.black),
+                                        ),
+                                        Text("sec left",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black))
+                                      ],
+                                    )),
+                                Container(
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(238, 200, 93, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    height: 80,
+                                    width: 120,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "$swapleft",
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              color: Colors.black),
+                                        ),
+                                        Text("swaps left",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black))
+                                      ],
+                                    ))
+                              ],
+                            ),
+                            Hero(
+                              tag: 'transition',
+                              child: Container(
+                                height: w - 100,
+                                width: w - 100,
+                                decoration: BoxDecoration(
+                                    color: Color(0xff2ED2DB),
+                                    borderRadius: BorderRadius.circular(25.0)),
+                                // color: Colors.pinkAccent,
+                                child: isLoaded
+                                    ? Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: GridView.count(
+                                            crossAxisCount: 5,
+                                            children:
+                                                List.generate(25, (index) {
+                                              return Padding(
+                                                  padding: EdgeInsets.all(4),
+                                                  child: retWidget(index));
+                                            })))
+                                    : cubes(),
+                              ),
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                    // color: Color.fromRGBO(238, 200, 93, 1),
+                                    color: Color(0xff2ED2DB).withOpacity(1),
+                                    borderRadius: BorderRadius.circular(10)),
+                                height: 80,
+                                width: 150,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    MaterialButton(
+                                      onPressed: () {
+                                        if (swapleft > 0) {
+                                          setState(() {
+                                            swapInProg = true;
+                                            swapText =
+                                                "now choose two tiles you wanna swap";
+                                            swapleft--;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            swapText =
+                                                "youve used all your swaps";
+                                          });
+                                        }
+
+                                        // useSwap();
+                                      },
+                                      child: Text("use swap",
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Center(
+                                      child: Text("$swapText",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black
+                                                  .withOpacity(0.7))),
+                                    )
+                                    // Text("$swapText"),
+                                  ],
+                                ))
+                          ],
+                        )),
+                  ]),
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 }
