@@ -45,6 +45,7 @@ dependencies:
   flutter_svg: ^1.0.3
   just_audio: ^0.9.20
   google_fonts:
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
