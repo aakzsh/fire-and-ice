@@ -52,10 +52,7 @@ class Rules extends StatelessWidget {
             ),
             MaterialButton(
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Game()),
-                      (route) => false);
+                  Navigator.pop(context);
                 },
                 child: Hero(
                   tag: 'transition',

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:icesicle/screens/game.dart';
 import 'package:icesicle/constants/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:icesicle/screens/rules.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -109,16 +110,41 @@ class _HomeScreenState extends State<HomeScreen> {
                           "assets/monitor.png",
                           width: w - 20,
                         ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(80, 40, 0, 0),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "Icesicle",
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
-                              ),
-                            ))
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(140, 40, 0, 0),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Icesicle",
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )),
+                            InkWell(
+                              child: Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 40, 140, 0),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "rules",
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Rules()));
+                              },
+                            )
+                          ],
+                        )
                       ],
                     )),
                 Container(
@@ -205,61 +231,71 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Stack(
-                            children: <Widget>[
-                              Hero(
-                                createRectTween: (begin, end) {
-                                  return RectTween();
-                                },
-                                tag: 'transition',
-                                child: Image.asset(
-                                  "assets/controller.png",
-                                  width: 300,
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.fromLTRB(170, 130, 0, 50),
-                                  child: InkWell(
-                                    onTap: () {
-                                      try {
-                                        _audioCache.play('button_press.mp3');
-                                      } catch (error) {
-                                        SystemSound.play(SystemSoundType.click);
-                                      }
-                                      setState(() {
-                                        timeinitial =
-                                            difficultyTime[selectedLevel]!;
-                                        timeleft =
-                                            difficultyTime[selectedLevel]!;
-                                      });
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          PageRouteBuilder(
-                                              transitionDuration:
-                                                  Duration(milliseconds: 400),
-                                              pageBuilder: (_, __, ___) =>
-                                                  Game()),
-                                          (route) => false);
-                                      // Navigator.pushAndRemoveUntil(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) => Game()),
-                                      //     (route) => false);
-                                    },
-                                    child: CircleAvatar(
-                                      child: Text(
-                                        "Play",
-                                        style: TextStyle(fontSize: 12),
+                      Transform.scale(
+                        child: Padding(
+                            padding: EdgeInsets.only(bottom: 50),
+                            child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Hero(
+                                      createRectTween: (begin, end) {
+                                        return RectTween();
+                                      },
+                                      tag: 'transition',
+                                      child: Image.asset(
+                                        "assets/controller.png",
+                                        width: 300,
                                       ),
-                                      radius: 15,
-                                      backgroundColor:
-                                          Color.fromRGBO(251, 90, 72, 1),
                                     ),
-                                  ))
-                            ],
-                          ))
+                                    Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            170, 130, 0, 50),
+                                        child: InkWell(
+                                          onTap: () {
+                                            try {
+                                              _audioCache
+                                                  .play('button_press.mp3');
+                                            } catch (error) {
+                                              SystemSound.play(
+                                                  SystemSoundType.click);
+                                            }
+                                            setState(() {
+                                              timeinitial = difficultyTime[
+                                                  selectedLevel]!;
+                                              timeleft = difficultyTime[
+                                                  selectedLevel]!;
+                                            });
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                PageRouteBuilder(
+                                                    transitionDuration:
+                                                        Duration(
+                                                            milliseconds: 400),
+                                                    pageBuilder: (_, __, ___) =>
+                                                        Game()),
+                                                (route) => false);
+                                            // Navigator.pushAndRemoveUntil(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) => Game()),
+                                            //     (route) => false);
+                                          },
+                                          child: CircleAvatar(
+                                            child: Text(
+                                              "Play",
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                            radius: 15,
+                                            backgroundColor:
+                                                Color.fromRGBO(251, 90, 72, 1),
+                                          ),
+                                        ))
+                                  ],
+                                ))),
+                        scale: 1.1,
+                        // scaleY: 1.2,
+                      )
                     ],
                   ),
                 ),
