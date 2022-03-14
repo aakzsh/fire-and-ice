@@ -131,26 +131,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                 )),
-                            InkWell(
-                              child: Padding(
-                                  padding:
-                                      EdgeInsets.fromLTRB(0, 40, w / 12, 0),
-                                  child: Align(
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(0, 40, w / 12, 0),
+                                child: Align(
                                     alignment: Alignment.topLeft,
-                                    child: Text(
-                                      "rules",
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  )),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Rules()));
-                              },
-                            )
+                                    child: InkWell(
+                                      child: Text(
+                                        "rules",
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Rules()));
+                                      },
+                                    )))
                           ],
                         )
                       ],
@@ -170,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 maxLines: 1,
                                 style: GoogleFonts.pressStart2p(
                                     textStyle: TextStyle(
-                                        color: Colors.white, fontSize: 25))),
+                                        color: Colors.white, fontSize: 23))),
                             SizedBox(
                               height: 20,
                             ),

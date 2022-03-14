@@ -362,7 +362,7 @@ class _GameState extends State<Game> {
                     b = 61;
                   });
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Result()));
+                      MaterialPageRoute(builder: (context) => GameOver()));
                   print("won!!!");
                 }
               }
@@ -601,7 +601,7 @@ class _GameState extends State<Game> {
                     b = 61;
                   });
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Result()));
+                      MaterialPageRoute(builder: (context) => GameOver()));
                   print("won!!!");
                 }
               }
@@ -642,7 +642,7 @@ class _GameState extends State<Game> {
                           children: <Widget>[
                             Tooltip(
                               child: Container(
-                                height: 80,
+                                height: 120,
                                 child: RiveAnimation.asset(
                                   "assets/${timeinitial}x.riv",
                                 ),
@@ -728,7 +728,7 @@ class _GameState extends State<Game> {
                                 // color: Colors.pinkAccent,
                                 child: isLoaded
                                     ? Padding(
-                                        padding: EdgeInsets.all(20),
+                                        padding: EdgeInsets.all(10),
                                         child: GridView.count(
                                             crossAxisCount: 5,
                                             children:
