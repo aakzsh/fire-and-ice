@@ -12,7 +12,7 @@ class _BlobState extends State<Blob> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(child: Mascot()),
+      body: Container(child: Mascot),
     );
   }
 }
