@@ -99,7 +99,7 @@ class _GameState extends State<Game> {
       return InkWell(
         onTap: () {
           try {
-            _audioCache.play('collided.mp3');
+            _audioCache.play('collided.mp3', volume: 0.4);
           } catch (error) {
             SystemSound.play(SystemSoundType.click);
           }
@@ -166,7 +166,7 @@ class _GameState extends State<Game> {
     return InkWell(
       onTap: () {
         try {
-          _audioCache.play('collided.mp3');
+          _audioCache.play('collided.mp3', volume: 0.4);
         } catch (error) {
           SystemSound.play(SystemSoundType.click);
         }
@@ -241,7 +241,13 @@ class _GameState extends State<Game> {
 
         timeleft--;
       });
-
+      if (c == 0) {
+        setState(() {
+          r = 10;
+          g = 41;
+          b = 61;
+        });
+      }
       if (c == 4) {
         setState(() {
           isLoaded = true;
@@ -260,6 +266,7 @@ class _GameState extends State<Game> {
           bottommsg = "best of luck next time!";
         });
         // this.timerStart()
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => GameOver()),
@@ -321,6 +328,12 @@ class _GameState extends State<Game> {
   @override
   void initState() {
     pos.shuffle();
+    setState(() {
+      r = 10;
+      g = 41;
+
+      b = 61;
+    });
     timerStart();
     super.initState();
   }
@@ -344,6 +357,9 @@ class _GameState extends State<Game> {
               message = "Well Done!";
               time = timeinitial - timeleft;
               bottommsg = "You've completed the level in $time seconds";
+              r = 10;
+              g = 41;
+              b = 61;
             });
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Result()));

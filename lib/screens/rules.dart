@@ -54,16 +54,14 @@ class Rules extends StatelessWidget {
                       image: AssetImage("assets/wood.png"), fit: BoxFit.cover)),
             ),
             MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Hero(
-                  tag: 'transition',
-                  child: Text(
-                    "Start Playing",
-                    style: rulestyle(20),
-                  ),
-                ))
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Start Playing",
+                style: rulestyle(20),
+              ),
+            )
           ],
         ))
       ],
@@ -72,5 +70,7 @@ class Rules extends StatelessWidget {
 }
 
 TextStyle rulestyle(x) {
-  return TextStyle(color: Color.fromRGBO(65, 26, 3, 1), fontSize: x);
+  String size = x.toString();
+  return TextStyle(
+      color: Color.fromRGBO(65, 26, 3, 1), fontSize: double.parse(size));
 }
