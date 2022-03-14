@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           print(event.logicalKey.keyId);
           if (event is RawKeyDownEvent) {
             // keyPressed(event.logicalKey.keyId.toString());
-            if (event.logicalKey.keyId.toString() == "4294968067") {
+            if (event.logicalKey.keyId.toString() == "4294968066") {
               try {
                 _audioCache.play('change_level.mp3');
               } catch (error) {
@@ -50,10 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               }
               print("right");
-            } else if (event.logicalKey.keyId.toString() == "4294968066") {
-              /////////////////
-              ///
-              ///
+            } else if (event.logicalKey.keyId.toString() == "4294968067") {
               try {
                 _audioCache.play('change_level.mp3');
               } catch (error) {

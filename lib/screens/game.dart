@@ -8,6 +8,7 @@ import 'package:icesicle/screens/result.dart';
 import 'package:icesicle/constants/constants.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rive/rive.dart';
 import 'package:show_up_animation/show_up_animation.dart';
 // import 'package:audioplayers/audio_cache.dart';
 
@@ -27,6 +28,7 @@ final AudioCache _audioCache = AudioCache(
 );
 
 class _GameState extends State<Game> {
+  late RiveSceneController control;
   bool isLoaded = false;
   String swapText = "";
   bool swapInProg = false;
@@ -113,6 +115,7 @@ class _GameState extends State<Game> {
             }
             if (swapped.length == 2) {
               setState(() {
+                swapText = "";
                 int one = pos[swapped[0]];
                 int two = pos[swapped[1]];
                 pos[swapped[0]] = two;
@@ -252,6 +255,10 @@ class _GameState extends State<Game> {
           SystemSound.play(SystemSoundType.click);
         }
         timer.cancel();
+        setState(() {
+          message = "Awh damn";
+          bottommsg = "best of luck next time!";
+        });
         // this.timerStart()
         Navigator.pushAndRemoveUntil(
             context,
@@ -333,6 +340,11 @@ class _GameState extends State<Game> {
           keyPressed(event.logicalKey.keyId.toString());
 
           if (pos.toString() == posCheck.toString()) {
+            setState(() {
+              message = "Well Done!";
+              time = timeinitial - timeleft;
+              bottommsg = "You've completed the level in $time seconds";
+            });
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Result()));
             print("won!!!");
@@ -374,13 +386,65 @@ class _GameState extends State<Game> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 200,
-                        child: Text(
-                          "$timeleft",
-                          style: TextStyle(fontSize: 40, color: Colors.white),
-                        ),
-                      ),
+                          // color: Color.fromRGBO(233, 30, 99, 1),
+                          height: h,
+                          width: 300,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Container(
+                                height: 300,
+                                width: 300,
+                                child: RiveAnimation.asset(
+                                  "assets/$timeinitial.riv",
+                                ),
+                              ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(238, 200, 93, 1),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  height: 100,
+                                  width: 150,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "$timeleft",
+                                        style: TextStyle(
+                                            fontSize: 30, color: Colors.black),
+                                      ),
+                                      Text("sec left",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black))
+                                    ],
+                                  )),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(238, 200, 93, 1),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  height: 100,
+                                  width: 150,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "$swapleft",
+                                        style: TextStyle(
+                                            fontSize: 30, color: Colors.black),
+                                      ),
+                                      Text("swaps left",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black))
+                                    ],
+                                  ))
+                            ],
+                          )),
                       Hero(
                         tag: 'transition',
                         child: Container(
@@ -430,10 +494,13 @@ class _GameState extends State<Game> {
                                     style: TextStyle(
                                         fontSize: 40, color: Colors.white)),
                               ),
-                              Text("$swapleft swaps left",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white)),
-                              Text("$swapText"),
+                              Center(
+                                child: Text("$swapText",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white)),
+                              )
+                              // Text("$swapText"),
                             ],
                           ))
                     ],

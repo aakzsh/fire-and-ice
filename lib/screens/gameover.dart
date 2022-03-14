@@ -12,6 +12,10 @@ class GameOver extends StatefulWidget {
   State<GameOver> createState() => _GameOverState();
 }
 
+String message = "Well Done!!";
+int time = 0;
+String bottommsg = "You've completed the level in $time seconds";
+
 class _GameOverState extends State<GameOver> {
   @override
   Widget build(BuildContext context) {
@@ -60,7 +64,7 @@ class _GameOverState extends State<GameOver> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Text('Well Done!',
+                            Text(message,
                                 style: TextStyle(
                                     color: Color(0xff411A03),
                                     fontWeight: FontWeight.w700,
@@ -68,7 +72,7 @@ class _GameOverState extends State<GameOver> {
                             SizedBox(
                               height: 20,
                             ),
-                            const Text('You’ve completed the level in 230 s',
+                            Text('$bottommsg',
                                 style: TextStyle(
                                     color: Color.fromARGB(199, 65, 26, 3),
                                     fontWeight: FontWeight.w500,
@@ -96,7 +100,7 @@ class _GameOverState extends State<GameOver> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Game()),
+                                          builder: (context) => HomeScreen()),
                                       (route) => false);
                                 },
                                 child: Text("Play Again",
