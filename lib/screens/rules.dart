@@ -3,13 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icesicle/screens/game.dart';
 
-class Rules extends StatelessWidget {
+bool isLandscape = true;
+
+class Rules extends StatefulWidget {
   const Rules({Key? key}) : super(key: key);
 
+  @override
+  State<Rules> createState() => _RulesState();
+}
+
+class _RulesState extends State<Rules> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    if (w / h > 1) {
+      setState(() {
+        isLandscape = true;
+      });
+    } else {
+      setState(() {
+        isLandscape = false;
+      });
+    }
+
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -39,7 +57,7 @@ class Rules extends StatelessWidget {
                       image: AssetImage("assets/wood.png"), fit: BoxFit.cover)),
             ),
             Container(
-              width: w - 90,
+              width: isLandscape ? 2 / 3 * w : 0.95 * w,
               child: Padding(
                   padding: EdgeInsets.all(15),
                   child: Center(
@@ -49,19 +67,34 @@ class Rules extends StatelessWidget {
                     ),
                   )),
               decoration: const BoxDecoration(
-                  color: Colors.red,
-                  image: DecorationImage(
-                      image: AssetImage("assets/wood.png"), fit: BoxFit.cover)),
-            ),
-            MaterialButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                "Start Playing",
-                style: rulestyle(20),
+                color: Color(0xffEEC85D),
               ),
-            )
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(0xffEEC85D),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(115, 73, 49, 78),
+                      offset: Offset(
+                        2.0,
+                        4.0,
+                      ),
+                      blurRadius: 4.0,
+                    ),
+                  ]),
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Start Playing",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+              ),
+            ),
           ],
         ))
       ],

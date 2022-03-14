@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icesicle/animations/cubes.dart';
@@ -401,19 +400,41 @@ class _GameState extends State<Game> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                          // color: Color.fromRGBO(233, 30, 99, 1),
-                          height: h,
-                          width: 300,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: <Widget>[
+                          Stack(
                             children: <Widget>[
-                              Container(
-                                height: 300,
-                                width: 300,
-                                child: RiveAnimation.asset(
-                                  "assets/$timeinitial.riv",
+                              Tooltip(
+                                child: Container(
+                                  height: 300,
+                                  width: 300,
+                                  child: RiveAnimation.asset(
+                                    "assets/$timeinitial.riv",
+                                  ),
                                 ),
+                                message:
+                                    "solve the puzzle before its sunny enough for the ice to melt down",
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.all(0),
+                                showDuration: Duration(milliseconds: 100),
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 224, 218, 218),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(4)),
+                                ),
+                                textStyle: TextStyle(color: Color(0xff1C767B)),
+                                preferBelow: true,
+                                verticalOffset: -80,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 200,
                               ),
                               Container(
                                   decoration: BoxDecoration(
@@ -437,6 +458,9 @@ class _GameState extends State<Game> {
                                               color: Colors.black))
                                     ],
                                   )),
+                              SizedBox(
+                                height: 70,
+                              ),
                               Container(
                                   decoration: BoxDecoration(
                                       color: Color.fromRGBO(238, 200, 93, 1),
@@ -460,7 +484,9 @@ class _GameState extends State<Game> {
                                     ],
                                   ))
                             ],
-                          )),
+                          )
+                        ],
+                      ),
                       Hero(
                         tag: 'transition',
                         child: Container(
@@ -480,10 +506,14 @@ class _GameState extends State<Game> {
                                             padding: EdgeInsets.all(4),
                                             child: retWidget(index));
                                       })))
-                              : Cubes(),
+                              : cubes(),
                         ),
                       ),
                       Container(
+                          decoration: BoxDecoration(
+                              // color: Color.fromRGBO(238, 200, 93, 1),
+                              color: Color(0xff2ED2DB).withOpacity(1),
+                              borderRadius: BorderRadius.circular(10)),
                           height: 120,
                           width: 200,
                           child: Column(
@@ -508,13 +538,19 @@ class _GameState extends State<Game> {
                                 },
                                 child: Text("use swap",
                                     style: TextStyle(
-                                        fontSize: 40, color: Colors.white)),
+                                        fontSize: 32,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              SizedBox(
+                                height: 10,
                               ),
                               Center(
                                 child: Text("$swapText",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 15, color: Colors.white)),
+                                        fontSize: 16,
+                                        color: Colors.black.withOpacity(0.7))),
                               )
                               // Text("$swapText"),
                             ],

@@ -104,13 +104,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.topCenter,
                     child: Stack(
                       children: <Widget>[
-                        Container(
-                          width: w - 20,
-                          height: 3 * h / 4,
-                          child: Image.asset(
-                            "assets/monitor.png",
-                            fit: BoxFit.fill,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: w - 20,
+                              height: 3 * h / 4,
+                              child: Image.asset(
+                                "assets/monitor.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

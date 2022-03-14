@@ -49,72 +49,82 @@ class _GameOverState extends State<GameOver> {
                 padding: EdgeInsets.all(50),
                 child: Container(
                   decoration: BoxDecoration(
+                      color: Colors.pink,
                       image: DecorationImage(
                           image: AssetImage('assets/wood.png'),
                           fit: BoxFit.cover)),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(message,
-                                style: TextStyle(
-                                    color: Color(0xff411A03),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30)),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text('$bottommsg',
-                                style: TextStyle(
-                                    color: Color.fromARGB(199, 65, 26, 3),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18)),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Color(0xffEEC85D),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(115, 73, 49, 78),
-                                      offset: Offset(
-                                        2.0,
-                                        4.0,
-                                      ),
-                                      blurRadius: 4.0,
-                                    ),
-                                  ]),
-                              child: MaterialButton(
-                                onPressed: () {
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeScreen()),
-                                      (route) => false);
-                                },
-                                child: Text("Play Again",
+                      padding: const EdgeInsets.all(20.0),
+                      child: Stack(
+                        children: <Widget>[
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(message,
                                     style: TextStyle(
+                                        color: Color(0xff411A03),
                                         fontWeight: FontWeight.w700,
+                                        fontSize: 30)),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text('$bottommsg',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(199, 65, 26, 3),
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 18)),
-                              ),
+                                SizedBox(
+                                  height: 20.0,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Color(0xffEEC85D),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color:
+                                              Color.fromRGBO(115, 73, 49, 78),
+                                          offset: Offset(
+                                            2.0,
+                                            4.0,
+                                          ),
+                                          blurRadius: 4.0,
+                                        ),
+                                      ]),
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeScreen()),
+                                          (route) => false);
+                                    },
+                                    child: Text("Play Again",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 18)),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        Container(width: w / 4, child: Mascot)
-                      ],
-                    ),
-                  ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Container(
+                                height: 400,
+                                width: 400,
+                                child: Mascot,
+                              )
+                            ],
+                          )
+                        ],
+                      )),
                 ),
               ),
             ),

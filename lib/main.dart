@@ -3,6 +3,7 @@ import 'package:icesicle/animations/cubes.dart';
 import 'package:icesicle/screens/blobanimation.dart';
 import 'package:icesicle/screens/check.dart';
 import 'package:icesicle/screens/game.dart';
+import 'package:icesicle/screens/gameover.dart';
 import 'package:icesicle/screens/home.dart';
 
 void main() {
@@ -21,6 +22,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomeScreen());
+    return MaterialApp(home: GameOver());
   }
 }
