@@ -5,6 +5,7 @@ import 'package:icesicle/screens/game.dart';
 import 'package:icesicle/constants/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icesicle/screens/rules.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -106,15 +107,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.topCenter,
                     child: Stack(
                       children: <Widget>[
-                        Image.asset(
-                          "assets/monitor.png",
+                        Container(
                           width: w - 20,
+                          height: 3 * h / 4,
+                          child: Image.asset(
+                            "assets/monitor.png",
+                            fit: BoxFit.fill,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Padding(
-                                padding: EdgeInsets.fromLTRB(140, 40, 0, 0),
+                                padding: EdgeInsets.fromLTRB(w / 12, 40, 0, 0),
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
@@ -126,7 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                             InkWell(
                               child: Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 40, 140, 0),
+                                  padding:
+                                      EdgeInsets.fromLTRB(0, 40, w / 12, 0),
                                   child: Align(
                                     alignment: Alignment.topLeft,
                                     child: Text(
@@ -154,79 +160,86 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: h / 2 - 110),
+                        padding: EdgeInsets.only(
+                            top: h / 2 - 110, left: w / 12, right: w / 12),
                         child: Column(
                           children: <Widget>[
-                            Text("Choose a level to continue",
+                            AutoSizeText("Choose a level to continue",
+                                maxLines: 1,
                                 style: GoogleFonts.pressStart2p(
                                     textStyle: TextStyle(
                                         color: Colors.white, fontSize: 25))),
                             SizedBox(
                               height: 20,
                             ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  IconButton(
-                                      onPressed: () {
-                                        try {
-                                          _audioCache.play('change_level.mp3');
-                                        } catch (error) {
-                                          SystemSound.play(
-                                              SystemSoundType.click);
-                                        }
-                                        if (selectedLevel != "Easy") {
-                                          setState(() {
-                                            selectedLevel = level[
-                                                level.indexOf(selectedLevel) -
-                                                    1];
-                                          });
-                                        } else {
-                                          setState(() {
-                                            selectedLevel = "Hard";
-                                          });
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.white,
-                                      )),
-                                  Text(selectedLevel,
-                                      style: GoogleFonts.pressStart2p(
-                                          textStyle: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25))),
-                                  IconButton(
-                                      onPressed: () {
-                                        try {
-                                          _audioCache.play('change_level.mp3');
-                                        } catch (error) {
-                                          SystemSound.play(
-                                              SystemSoundType.click);
-                                        }
-                                        if (selectedLevel != "Hard") {
-                                          setState(() {
-                                            selectedLevel = level[
-                                                level.indexOf(selectedLevel) +
-                                                    1];
-                                          });
-                                        } else {
-                                          setState(() {
-                                            selectedLevel = "Easy";
-                                          });
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.white,
-                                      )),
-                                ],
+                            Transform.scale(
+                              scale: 0.75,
+                              child: Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    IconButton(
+                                        onPressed: () {
+                                          try {
+                                            _audioCache
+                                                .play('change_level.mp3');
+                                          } catch (error) {
+                                            SystemSound.play(
+                                                SystemSoundType.click);
+                                          }
+                                          if (selectedLevel != "Easy") {
+                                            setState(() {
+                                              selectedLevel = level[
+                                                  level.indexOf(selectedLevel) -
+                                                      1];
+                                            });
+                                          } else {
+                                            setState(() {
+                                              selectedLevel = "Hard";
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: Colors.white,
+                                        )),
+                                    Text(selectedLevel,
+                                        style: GoogleFonts.pressStart2p(
+                                            textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25))),
+                                    IconButton(
+                                        onPressed: () {
+                                          try {
+                                            _audioCache
+                                                .play('change_level.mp3');
+                                          } catch (error) {
+                                            SystemSound.play(
+                                                SystemSoundType.click);
+                                          }
+                                          if (selectedLevel != "Hard") {
+                                            setState(() {
+                                              selectedLevel = level[
+                                                  level.indexOf(selectedLevel) +
+                                                      1];
+                                            });
+                                          } else {
+                                            setState(() {
+                                              selectedLevel = "Easy";
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.white,
+                                        )),
+                                  ],
+                                ),
+                                height: 50,
+                                width: 250,
+                                color: Colors.black,
                               ),
-                              height: 50,
-                              width: 250,
-                              color: Colors.black,
                             ),
                           ],
                         ),
