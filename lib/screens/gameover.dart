@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icesicle/screens/game.dart';
+import 'package:icesicle/screens/home.dart';
 
 class GameOver extends StatefulWidget {
   const GameOver({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _GameOverState extends State<GameOver> {
           onPressed: () {
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => Game()),
+                MaterialPageRoute(builder: (context) => HomeScreen()),
                 (route) => false);
           },
           child: Text("replay"),

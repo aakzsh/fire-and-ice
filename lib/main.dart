@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icesicle/animations/cubes.dart';
 import 'package:icesicle/screens/blobanimation.dart';
 import 'package:icesicle/screens/check.dart';
 import 'package:icesicle/screens/game.dart';
@@ -20,8 +21,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Home(),
-    );
+    return MaterialApp(home: HomeScreen());
   }
 }

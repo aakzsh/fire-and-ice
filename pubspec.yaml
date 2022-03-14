@@ -43,6 +43,8 @@ dependencies:
   hoverx:
   show_up_animation: ^2.0.0
   flutter_svg: ^1.0.3
+  just_audio: ^0.9.20
+  google_fonts:
 
 dev_dependencies:
   flutter_test:
