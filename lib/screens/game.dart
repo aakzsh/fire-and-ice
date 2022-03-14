@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:icesicle/animations/cubes.dart';
 import 'package:icesicle/screens/gameover.dart';
 import 'package:icesicle/screens/result.dart';
 import 'package:icesicle/constants/constants.dart';
@@ -19,15 +21,17 @@ class Game extends StatefulWidget {
   State<Game> createState() => _GameState();
 }
 
+final AudioCache _audioCache = AudioCache(
+  prefix: 'audio/',
+  fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
+);
+
 class _GameState extends State<Game> {
-  final AudioCache _audioCache = AudioCache(
-    prefix: 'audio/',
-    fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
-  );
+  bool isLoaded = false;
   String swapText = "";
   bool swapInProg = false;
   int onTapped = 0;
-
+  int c = 0;
   int swapleft = 2;
   List<int> swapped = [];
   Color bgcolor = Color.fromRGBO(r.toInt(), g.toInt(), b.toInt(), 1);
@@ -41,6 +45,11 @@ class _GameState extends State<Game> {
       });
 
       if (pos == posCheck) {
+        try {
+          _audioCache.play('win.mp3');
+        } catch (error) {
+          SystemSound.play(SystemSoundType.click);
+        }
         print("won the game");
       }
     } else if ((index - _24index).abs() == 5) {
@@ -87,6 +96,11 @@ class _GameState extends State<Game> {
 
       return InkWell(
         onTap: () {
+          try {
+            _audioCache.play('collided.mp3');
+          } catch (error) {
+            SystemSound.play(SystemSoundType.click);
+          }
           setState(() {
             onTapped = pos.indexOf(24);
           });
@@ -128,7 +142,7 @@ class _GameState extends State<Game> {
             opacity: 1.0,
             child: Container(
               child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(3.0),
                   child: Center(
                       child: Stack(children: <Widget>[
                     Image.asset('assets/ice.png'),
@@ -148,6 +162,11 @@ class _GameState extends State<Game> {
     }
     return InkWell(
       onTap: () {
+        try {
+          _audioCache.play('collided.mp3');
+        } catch (error) {
+          SystemSound.play(SystemSoundType.click);
+        }
         setState(() {
           onTapped = pos.indexOf(24);
         });
@@ -190,7 +209,7 @@ class _GameState extends State<Game> {
         opacity: 1.0,
         child: Container(
           child: Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(3.0),
               child: Center(
                   child: Stack(children: <Widget>[
                 Image.asset('assets/ice.png'),
@@ -211,6 +230,7 @@ class _GameState extends State<Game> {
   timerStart() {
     Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
+        c++;
         r += ((fr - sr) / timeinitial);
         g += ((fg - sg) / timeinitial);
         b += ((fb - sb) / timeinitial);
@@ -219,7 +239,18 @@ class _GameState extends State<Game> {
         timeleft--;
       });
 
+      if (c == 4) {
+        setState(() {
+          isLoaded = true;
+        });
+      }
+
       if (timeleft == 0) {
+        try {
+          _audioCache.play('game_over.mp3');
+        } catch (error) {
+          SystemSound.play(SystemSoundType.click);
+        }
         timer.cancel();
         // this.timerStart()
         Navigator.pushAndRemoveUntil(
@@ -232,20 +263,46 @@ class _GameState extends State<Game> {
 
   keyPressed(val) {
     // SystemSound.play(SystemSoundType.click);
-    _audioCache.play('collided.mp3');
+    setState(() {
+      onTapped = pos.indexOf(24);
+    });
     if (val == "4294968068") {
+      try {
+        _audioCache.play('collided.mp3');
+      } catch (error) {
+        SystemSound.play(SystemSoundType.click);
+      }
+
       if (pos.indexOf(24) <= 24) {
         checkpos(pos.indexOf(24) + 5);
       }
     } else if (val == "4294968066") {
+      try {
+        _audioCache.play('collided.mp3');
+      } catch (error) {
+        SystemSound.play(SystemSoundType.click);
+      }
+
       if (![4, 9, 14, 19, 24].contains(pos.indexOf(24))) {
         checkpos(pos.indexOf(24) + 1);
       }
     } else if (val == "4294968067") {
+      try {
+        _audioCache.play('collided.mp3');
+      } catch (error) {
+        SystemSound.play(SystemSoundType.click);
+      }
+
       if (![0, 5, 10, 15, 20].contains(pos.indexOf(24))) {
         checkpos(pos.indexOf(24) - 1);
       }
     } else if (val == "4294968065") {
+      try {
+        _audioCache.play('collided.mp3');
+      } catch (error) {
+        SystemSound.play(SystemSoundType.click);
+      }
+
       if (pos.indexOf(24) > 4) {
         checkpos(pos.indexOf(24) - 5);
       }
@@ -311,7 +368,7 @@ class _GameState extends State<Game> {
               Container(
                   height: double.infinity,
                   width: double.infinity,
-                  color: bgcolor.withOpacity(0.4),
+                  color: bgcolor.withOpacity(0.6),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -324,22 +381,26 @@ class _GameState extends State<Game> {
                           style: TextStyle(fontSize: 40, color: Colors.white),
                         ),
                       ),
-                      Container(
-                        height: h - 100,
-                        width: h - 100,
-                        decoration: BoxDecoration(
-                            color: Color(0xff2ED2DB),
-                            borderRadius: BorderRadius.circular(25.0)),
-                        // color: Colors.pinkAccent,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: GridView.count(
-                              crossAxisCount: 5,
-                              children: List.generate(25, (index) {
-                                return Padding(
-                                    padding: EdgeInsets.all(4),
-                                    child: retWidget(index));
-                              })),
+                      Hero(
+                        tag: 'transition',
+                        child: Container(
+                          height: h - 100,
+                          width: h - 100,
+                          decoration: BoxDecoration(
+                              color: Color(0xff2ED2DB),
+                              borderRadius: BorderRadius.circular(25.0)),
+                          // color: Colors.pinkAccent,
+                          child: isLoaded
+                              ? Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: GridView.count(
+                                      crossAxisCount: 5,
+                                      children: List.generate(25, (index) {
+                                        return Padding(
+                                            padding: EdgeInsets.all(4),
+                                            child: retWidget(index));
+                                      })))
+                              : Cubes(),
                         ),
                       ),
                       Container(

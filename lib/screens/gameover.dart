@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icesicle/animations/mascot.dart';
 import 'package:icesicle/screens/game.dart';
+import 'package:icesicle/screens/home.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
